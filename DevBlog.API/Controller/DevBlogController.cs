@@ -17,12 +17,22 @@ namespace DevBlog.API.Controllers
             _devBlogService = devBlogService;
         }
 
-/*        // Get all objects
+        /// <summary>
+        /// Get all Categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetGategories();
-        // Get object by {id}
+        public async Task<IActionResult> GetGategories()
+        {
+
+        }
+
+        /// <summary>
+        /// Get category by id
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetCategory();*/
+        public async Task<IActionResult> GetCategory();
 
         /// <summary>
         /// Create a Category
@@ -30,6 +40,7 @@ namespace DevBlog.API.Controllers
         /// <param name="categoryRequest"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("")]
         public async Task<IActionResult> CreateCategory(CategoryRequest categoryRequest)
         {
             var result = await _devBlogService.CreateCategory(categoryRequest);

@@ -15,7 +15,21 @@ namespace DevBlog.API.Clients
             _applicationDbContext = applicationDbContext;
         }
 
-        async Task<Category> IDevBlogClient.CreateCategory(CategoryRequest categoryRequest)
+        public async Task<List<Category>> GetCategories()
+        {
+            var records = await _applicationDbContext.Categories.ToListAsync();
+
+            return records;
+        }
+
+        public async Task<Category> GetCategory(Guid id)
+        {
+            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            return record;
+        }
+
+        public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
         {
             var request = new Category()
             {
@@ -29,30 +43,18 @@ namespace DevBlog.API.Clients
             return request;
         }
 
-        async Task<Category> IDevBlogClient.DeleteCategory(Guid id)
+        public async Task<Category> DeleteCategory(Guid id)
         {
-            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(d => d.Id == id);
+            var record = await GetCategory(id);
+
+            await _applicationDbContext.SaveChangesAsync();
 
             return record;
         }
 
-        async Task<List<Category>> IDevBlogClient.GetCategories()
+        public async Task<Category> UpdateCategory(Guid id)
         {
-            var records = await _applicationDbContext.Categories.ToListAsync();
-
-            return records;
-        }
-
-        async Task<Category> IDevBlogClient.GetCategory(Guid id)
-        {
-            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
-
-            return record;
-        }
-
-        async Task<Category> IDevBlogClient.UpdateCategory(Guid id)
-        {
-            var serviceDevBlog = await _applicationDbContext.Categories.FirstOrDefaultAsync(u => u.Id == id);
+            var serviceDevBlog = await GetCategory(id);
 
             await _applicationDbContext.SaveChangesAsync();
 

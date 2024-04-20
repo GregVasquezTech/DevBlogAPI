@@ -15,6 +15,16 @@ namespace DevBlog.API.Services
             _devBlogClient = devBlogClient;
         }
 
+        public Task<List<Category>?> GetCategories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Category> GetCategory(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
         {
             try
@@ -42,16 +52,6 @@ namespace DevBlog.API.Services
         }
 
         public Task<Category> EditCategory(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Category>?> GetCategories()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> GetCategory(Guid id)
         {
             throw new NotImplementedException();
         }
