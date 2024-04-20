@@ -1,8 +1,7 @@
-﻿namespace DevBlog.API.Models.Domain
+﻿namespace DevBlog.API.Models.Domain.Request
 {
-    public class Category
+    public class CategoryRequest
     {
-        public Guid? Id { get; set; }
         public string Name { get; set; }
         public string UrlHandle { get; set; }
     }
