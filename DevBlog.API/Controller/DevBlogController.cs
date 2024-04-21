@@ -22,9 +22,11 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("")]
         public async Task<IActionResult> GetGategories()
         {
-
+            var result = await _devBlogService.GetCategories();
+            return Ok(result);
         }
 
         /// <summary>
@@ -32,7 +34,12 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetCategory();
+        [Route("{id}")]
+        public async Task<IActionResult> GetCategory(Guid id)
+        {
+            var result = await _devBlogService.GetCategory(id);
+            return Ok(result);
+        }
 
         /// <summary>
         /// Create a Category
@@ -47,11 +54,29 @@ namespace DevBlog.API.Controllers
 
             return Ok(result);
         }
-/*        // Update object by {id}
+      
+ *      /// <summary>
+        /// Update a Category
+        /// </summary>
+        /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateCategory();
-        // Delete object by {id}
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateCategory(Guid id)
+        {
+            var result = await _devBlogService.UpdateCategory(id);
+            return Ok(result);
+        }
+        
+        /// <summary>
+        /// Delete a Category
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> DeleteCategory();*/
+        [Route("{id")]
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+            var result = await _devBlogService.DeleteCategory(id);
+            return Ok(result);
+        }
     }
 }

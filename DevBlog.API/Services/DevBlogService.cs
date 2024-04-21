@@ -15,14 +15,31 @@ namespace DevBlog.API.Services
             _devBlogClient = devBlogClient;
         }
 
-        public Task<List<Category>?> GetCategories()
+        public async Task<List<Category>?> GetCategories()
         {
-            throw new NotImplementedException();
+            var serviceDevBlog = await _devBlogClient.GetCategories();
+
+            var categories = new List<Category>();
+
+            foreach(var category in serviceDevBlog)
+            {
+                categories.Add(category);
+            }
+            return categories;
         }
 
-        public Task<Category> GetCategory(Guid id)
+        public async Task<Category> GetCategory(Guid id)
         {
-            throw new NotImplementedException();
+            var serviceDevBlog = await _devBlogClient.GetCategory(id);
+
+            var response = new Category() 
+            { 
+                Id = serviceDevBlog.Id, 
+                Name = serviceDevBlog.Name,
+                UrlHandle = serviceDevBlog.UrlHandle,
+            };
+
+            return response;
         }
 
         public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
@@ -46,14 +63,18 @@ namespace DevBlog.API.Services
             }
         }
 
-        public Task<Category> DeleteCategory(Guid id)
+        public async Task<Category> DeleteCategory(Guid id)
         {
-            throw new NotImplementedException();
+            var serviceDevBlog = await _devBlogClient.DeleteCategory(id);
+
+            return (Category) serviceDevBlog;
         }
 
-        public Task<Category> EditCategory(Guid id)
+        public async Task<Category> UpdateCategory(Guid id)
         {
-            throw new NotImplementedException();
+            var serviceDevBlog = await _devBlogClient.UpdateCategory(id);
+
+            return (Category) serviceDevBlog;
         }
     }
 }
