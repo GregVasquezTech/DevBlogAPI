@@ -55,7 +55,7 @@ namespace DevBlog.API.Controllers
             return Ok(result);
         }
       
- *      /// <summary>
+        /// <summary>
         /// Update a Category
         /// </summary>
         /// <returns></returns>
@@ -72,7 +72,7 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        [Route("{id")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
             var result = await _devBlogService.DeleteCategory(id);
