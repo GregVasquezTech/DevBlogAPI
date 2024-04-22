@@ -1,5 +1,4 @@
-﻿using DevBlog.API.Models.Domain;
-using DevBlog.API.Models.Domain.Request;
+﻿using DevBlog.API.Models.Domain.Request;
 using DevBlog.API.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 

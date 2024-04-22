@@ -1,5 +1,4 @@
-﻿using DevBlog.API.Clients;
-using DevBlog.API.Clients.Contracts;
+﻿using DevBlog.API.Clients.Contracts;
 using DevBlog.API.Models.Domain;
 using DevBlog.API.Models.Domain.Request;
 using DevBlog.API.Services.Contracts;
