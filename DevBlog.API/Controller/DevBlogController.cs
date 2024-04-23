@@ -33,10 +33,10 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetCategory(Guid id)
+        [Route("{name}")]
+        public async Task<IActionResult> GetCategory(string name)
         {
-            var result = await _devBlogService.GetCategory(id);
+            var result = await _devBlogService.GetCategory(name);
             return Ok(result);
         }
 
@@ -59,10 +59,10 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateCategory(Guid id)
+        [Route("{name}")]
+        public async Task<IActionResult> UpdateCategory(string name)
         {
-            var result = await _devBlogService.UpdateCategory(id);
+            var result = await _devBlogService.UpdateCategory(name);
             return Ok(result);
         }
         
@@ -71,10 +71,10 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> DeleteCategory(Guid id)
+        [Route("{name}")]
+        public async Task<IActionResult> DeleteCategory(string name)
         {
-            var result = await _devBlogService.DeleteCategory(id);
+            var result = await _devBlogService.DeleteCategory(name);
             return Ok(result);
         }
     }

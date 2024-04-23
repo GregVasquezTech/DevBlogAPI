@@ -22,9 +22,9 @@ namespace DevBlog.API.Clients
             return records;
         }
 
-        public async Task<Category> GetCategory(Guid id)
+        public async Task<Category> GetCategory(string name)
         {
-            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Name == name);
 
             return record;
         }
@@ -43,18 +43,18 @@ namespace DevBlog.API.Clients
             return request;
         }
 
-        public async Task<Category> DeleteCategory(Guid id)
+        public async Task<Category> DeleteCategory(string name)
         {
-            var record = await GetCategory(id);
+            var record = await GetCategory(name);
 
             await _applicationDbContext.SaveChangesAsync();
 
             return record;
         }
 
-        public async Task<Category> UpdateCategory(Guid id)
+        public async Task<Category> UpdateCategory(string name)
         {
-            var serviceDevBlog = await GetCategory(id);
+            var serviceDevBlog = await GetCategory(name);
 
             await _applicationDbContext.SaveChangesAsync();
 

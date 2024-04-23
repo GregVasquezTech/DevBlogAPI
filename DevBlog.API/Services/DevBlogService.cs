@@ -27,9 +27,9 @@ namespace DevBlog.API.Services
             return categories;
         }
 
-        public async Task<Category> GetCategory(Guid id)
+        public async Task<Category> GetCategory(string name)
         {
-            var serviceDevBlog = await _devBlogClient.GetCategory(id);
+            var serviceDevBlog = await _devBlogClient.GetCategory(name);
 
             var response = new Category() 
             { 
@@ -62,16 +62,16 @@ namespace DevBlog.API.Services
             }
         }
 
-        public async Task<Category> DeleteCategory(Guid id)
+        public async Task<Category> DeleteCategory(string name)
         {
-            var serviceDevBlog = await _devBlogClient.DeleteCategory(id);
+            var serviceDevBlog = await _devBlogClient.DeleteCategory(name);
 
             return (Category) serviceDevBlog;
         }
 
-        public async Task<Category> UpdateCategory(Guid id)
+        public async Task<Category> UpdateCategory(string name)
         {
-            var serviceDevBlog = await _devBlogClient.UpdateCategory(id);
+            var serviceDevBlog = await _devBlogClient.UpdateCategory(name);
 
             return (Category) serviceDevBlog;
         }
