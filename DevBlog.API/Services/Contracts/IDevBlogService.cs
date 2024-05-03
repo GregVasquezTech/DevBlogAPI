@@ -9,6 +9,6 @@ namespace DevBlog.API.Services.Contracts
         public Task<Category> GetCategory(string name);
         public Task<Category> CreateCategory(CategoryRequest categoryRequest);
         public Task<Category> UpdateCategory(string name);
-        public Task<Category> DeleteCategory(string name);
+        public void DeleteCategory(string name);
     }
 }

@@ -20,7 +20,7 @@ namespace DevBlog.API.Services
 
             var categories = new List<Category>();
 
-            foreach(var category in serviceDevBlog)
+            foreach (var category in serviceDevBlog)
             {
                 categories.Add(category);
             }
@@ -31,9 +31,9 @@ namespace DevBlog.API.Services
         {
             var serviceDevBlog = await _devBlogClient.GetCategory(name);
 
-            var response = new Category() 
-            { 
-                Id = serviceDevBlog.Id, 
+            var response = new Category()
+            {
+                Id = serviceDevBlog.Id,
                 Name = serviceDevBlog.Name,
                 UrlHandle = serviceDevBlog.UrlHandle,
             };
@@ -64,16 +64,15 @@ namespace DevBlog.API.Services
 
         public async Task<Category> DeleteCategory(string name)
         {
-            var serviceDevBlog = await _devBlogClient.DeleteCategory(name);
-
-            return (Category) serviceDevBlog;
+            _devBlogClient.DeleteCategory(name);
+            var response = new
         }
 
         public async Task<Category> UpdateCategory(string name)
         {
             var serviceDevBlog = await _devBlogClient.UpdateCategory(name);
 
-            return (Category) serviceDevBlog;
+            return serviceDevBlog;
         }
     }
 }

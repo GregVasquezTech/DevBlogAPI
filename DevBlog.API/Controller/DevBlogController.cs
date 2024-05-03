@@ -53,7 +53,7 @@ namespace DevBlog.API.Controllers
 
             return Ok(result);
         }
-      
+
         /// <summary>
         /// Update a Category
         /// </summary>
@@ -65,17 +65,16 @@ namespace DevBlog.API.Controllers
             var result = await _devBlogService.UpdateCategory(name);
             return Ok(result);
         }
-        
+
         /// <summary>
         /// Delete a Category
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
         [Route("{name}")]
-        public async Task<IActionResult> DeleteCategory(string name)
+        public void DeleteCategory(string name)
         {
-            var result = await _devBlogService.DeleteCategory(name);
-            return Ok(result);
+            _devBlogService.DeleteCategory(name);
         }
     }
 }

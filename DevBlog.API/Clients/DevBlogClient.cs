@@ -17,15 +17,18 @@ namespace DevBlog.API.Clients
 
         public async Task<List<Category>> GetCategories()
         {
-            var records = await _applicationDbContext.Categories.ToListAsync();
+            var records = await _applicationDbContext.Categories.Where(x => x.IsDeleted != true).ToListAsync();
 
             return records;
         }
 
         public async Task<Category> GetCategory(string name)
         {
-            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Name == name);
-
+            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Name == name && x.IsDeleted == false);
+            if (record == null)
+            {
+                return null;
+            }
             return record;
         }
 
@@ -35,6 +38,8 @@ namespace DevBlog.API.Clients
             {
                 Name = categoryRequest.Name,
                 UrlHandle = categoryRequest.UrlHandle,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false,
             };
 
             await _applicationDbContext.Categories.AddAsync(request);
@@ -43,22 +48,26 @@ namespace DevBlog.API.Clients
             return request;
         }
 
-        public async Task<Category> DeleteCategory(string name)
+        public void DeleteCategory(string name)
         {
-            var record = await GetCategory(name);
-
-            await _applicationDbContext.SaveChangesAsync();
-
-            return record;
+            var deleteRecord = GetCategory(name);
+            if (deleteRecord != null)
+            {
+                _applicationDbContext.Remove(deleteRecord);
+                _applicationDbContext.SaveChanges();
+            }
         }
 
         public async Task<Category> UpdateCategory(string name)
         {
-            var serviceDevBlog = await GetCategory(name);
+            var updateRecord = await GetCategory(name);
+            if (updateRecord != null)
+            {
+                _applicationDbContext.Update(updateRecord);
+                await _applicationDbContext.SaveChangesAsync();
+            }
 
-            await _applicationDbContext.SaveChangesAsync();
-
-            return serviceDevBlog;
+            return updateRecord;
         }
     }
 }
