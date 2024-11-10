@@ -1,7 +1,6 @@
 ﻿using DevBlog.API.Clients.Contracts;
 using DevBlog.API.Data;
 using DevBlog.API.Models.Domain;
-using DevBlog.API.Models.Domain.Request;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevBlog.API.Clients
@@ -14,60 +13,50 @@ namespace DevBlog.API.Clients
         {
             _applicationDbContext = applicationDbContext;
         }
-
-        public async Task<List<Category>> GetCategories()
+        public async Task<List<Category>?> GetCategories(bool? active)
         {
-            var records = await _applicationDbContext.Categories.Where(x => x.IsDeleted != true).ToListAsync();
-
-            return records;
-        }
-
-        public async Task<Category> GetCategory(string name)
-        {
-            var record = await _applicationDbContext.Categories.FirstOrDefaultAsync(x => x.Name == name && x.IsDeleted == false);
-            if (record == null)
+            if (active != null)
             {
-                return null;
+                return await _applicationDbContext.Categories.Where(c => c.Active == active).ToListAsync();
+            } else {
+                return await _applicationDbContext.Categories.ToListAsync();
             }
-            return record;
         }
-
-        public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
+        public async Task<Category> GetCategoryById(int categoryId, bool? active)
         {
-            var request = new Category()
+            if (active != null)
             {
-                Name = categoryRequest.Name,
-                UrlHandle = categoryRequest.UrlHandle,
-                CreatedDate = DateTime.Now,
-                IsDeleted = false,
-            };
-
-            await _applicationDbContext.Categories.AddAsync(request);
+                return await _applicationDbContext.Categories.FirstAsync(c => c.CategoryId == categoryId && c.Active == active);
+            } else
+            {
+                return await _applicationDbContext.Categories.FirstAsync(c => c.CategoryId == categoryId);
+            }
+        }
+        public async Task<Category> CreateCategory(Category category)
+        {
+            await _applicationDbContext.Categories.AddAsync(category);
             await _applicationDbContext.SaveChangesAsync();
 
-            return request;
+            return category;
         }
-
-        public void DeleteCategory(string name)
+        public async System.Threading.Tasks.Task UpdateCategory(int categoryId, Category category)
         {
-            var deleteRecord = GetCategory(name);
-            if (deleteRecord != null)
+            if (await GetCategoryById(categoryId, category.Active) == null)
             {
-                _applicationDbContext.Remove(deleteRecord);
-                _applicationDbContext.SaveChanges();
+                throw new Exception($"Did not find category: {category}");
             }
+            _applicationDbContext.Update(category);
+            await _applicationDbContext.SaveChangesAsync();
         }
-
-        public async Task<Category> UpdateCategory(string name)
+        public async System.Threading.Tasks.Task DeleteCategory(int categoryId)
         {
-            var updateRecord = await GetCategory(name);
-            if (updateRecord != null)
+            Category record = await GetCategoryById(categoryId, null);
+            if (record == null)
             {
-                _applicationDbContext.Update(updateRecord);
-                await _applicationDbContext.SaveChangesAsync();
+                throw new Exception($"Did not find category for {categoryId}");
             }
-
-            return updateRecord;
+            _applicationDbContext.Remove(record);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

@@ -24,8 +24,7 @@ namespace DevBlog.API.Controllers
         [Route("")]
         public async Task<IActionResult> GetGategories()
         {
-            var result = await _devBlogService.GetCategories();
-            return Ok(result);
+            return Ok(await _devBlogService.GetCategories());
         }
 
         /// <summary>
@@ -33,11 +32,10 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("{name}")]
-        public async Task<IActionResult> GetCategory(string name)
+        [Route("{categoryId}")]
+        public async Task<IActionResult> GetCategoryById(int categoryId)
         {
-            var result = await _devBlogService.GetCategory(name);
-            return Ok(result);
+            return Ok(await _devBlogService.GetCategoryById(categoryId));
         }
 
         /// <summary>
@@ -49,9 +47,7 @@ namespace DevBlog.API.Controllers
         [Route("")]
         public async Task<IActionResult> CreateCategory(CategoryRequest categoryRequest)
         {
-            var result = await _devBlogService.CreateCategory(categoryRequest);
-
-            return Ok(result);
+            return Ok(await _devBlogService.CreateCategory(categoryRequest));
         }
 
         /// <summary>
@@ -59,11 +55,11 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [Route("{name}")]
-        public async Task<IActionResult> UpdateCategory(string name)
+        [Route("{categoryId}")]
+        public async Task<IActionResult> UpdateCategory(int categoryId, UpdateCategoryRequest updateCategoryRequest)
         {
-            var result = await _devBlogService.UpdateCategory(name);
-            return Ok(result);
+            await _devBlogService.UpdateCategory(categoryId, updateCategoryRequest);
+            return NoContent();
         }
 
         /// <summary>
@@ -71,10 +67,11 @@ namespace DevBlog.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        [Route("{name}")]
-        public void DeleteCategory(string name)
+        [Route("{categoryId}")]
+        public ActionResult DeleteCategory(int categoryId)
         {
-            _devBlogService.DeleteCategory(name);
+            _devBlogService.DeleteCategory(categoryId);
+            return NoContent();
         }
     }
 }

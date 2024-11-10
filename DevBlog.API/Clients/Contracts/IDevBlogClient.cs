@@ -1,14 +1,13 @@
 ﻿using DevBlog.API.Models.Domain;
-using DevBlog.API.Models.Domain.Request;
 
 namespace DevBlog.API.Clients.Contracts
 {
     public interface IDevBlogClient
     {
-        public Task<List<Category>?> GetCategories();
-        public Task<Category> GetCategory(string name);
-        public Task<Category> CreateCategory(CategoryRequest categoryRequest);
-        public Task<Category> UpdateCategory(string name);
-        public void DeleteCategory(string name);
+        public Task<List<Category>?> GetCategories(bool? active);
+        public Task<Category> GetCategoryById(int categoryId, bool? active);
+        public Task<Category> CreateCategory(Category category);
+        public System.Threading.Tasks.Task UpdateCategory(int categoryId, Category category);
+        public System.Threading.Tasks.Task DeleteCategory(int categoryId);
     }
 }

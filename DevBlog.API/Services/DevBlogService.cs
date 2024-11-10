@@ -1,4 +1,5 @@
-﻿using DevBlog.API.Clients.Contracts;
+﻿using AutoMapper;
+using DevBlog.API.Clients.Contracts;
 using DevBlog.API.Models.Domain;
 using DevBlog.API.Models.Domain.Request;
 using DevBlog.API.Services.Contracts;
@@ -8,71 +9,43 @@ namespace DevBlog.API.Services
     public class DevBlogService : IDevBlogService
     {
         private readonly IDevBlogClient _devBlogClient;
+        private readonly IMapper _mapper;
 
-        public DevBlogService(IDevBlogClient devBlogClient)
+        public DevBlogService(IDevBlogClient devBlogClient, IMapper mapper)
         {
             _devBlogClient = devBlogClient;
+            _mapper = mapper;
         }
 
         public async Task<List<Category>?> GetCategories()
         {
-            var serviceDevBlog = await _devBlogClient.GetCategories();
-
-            var categories = new List<Category>();
-
-            foreach (var category in serviceDevBlog)
-            {
-                categories.Add(category);
-            }
-            return categories;
+            return await _devBlogClient.GetCategories(null);
         }
 
-        public async Task<Category> GetCategory(string name)
+        public async Task<Category> GetCategoryById(int categoryId)
         {
-            var serviceDevBlog = await _devBlogClient.GetCategory(name);
-
-            var response = new Category()
-            {
-                Id = serviceDevBlog.Id,
-                Name = serviceDevBlog.Name,
-                UrlHandle = serviceDevBlog.UrlHandle,
-            };
-
-            return response;
+            return await _devBlogClient.GetCategoryById(categoryId, null);
         }
 
         public async Task<Category> CreateCategory(CategoryRequest categoryRequest)
         {
             try
             {
-                var serviceDevBlog = await _devBlogClient.CreateCategory(categoryRequest);
-
-                var response = new Category
-                {
-                    Id = serviceDevBlog.Id,
-                    Name = serviceDevBlog.Name,
-                    UrlHandle = serviceDevBlog.UrlHandle,
-                };
-
-                return response;
+                return await _devBlogClient.CreateCategory(_mapper.Map<Category>(categoryRequest));
             }
             catch (Exception ex)
             {
                 throw new Exception("Error creating category", ex);
             }
         }
-
-        public async Task<Category> DeleteCategory(string name)
+        public async System.Threading.Tasks.Task UpdateCategory(int categoryId, UpdateCategoryRequest updateCategoryRequest)
         {
-            _devBlogClient.DeleteCategory(name);
-            var response = new
+            Category category = _mapper.Map<Category>(updateCategoryRequest);
+            await _devBlogClient.UpdateCategory(categoryId, category);
         }
-
-        public async Task<Category> UpdateCategory(string name)
+        public async System.Threading.Tasks.Task DeleteCategory(int categoryId)
         {
-            var serviceDevBlog = await _devBlogClient.UpdateCategory(name);
-
-            return serviceDevBlog;
+            await _devBlogClient.DeleteCategory(categoryId);
         }
     }
 }

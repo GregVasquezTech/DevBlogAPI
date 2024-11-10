@@ -2,10 +2,10 @@
 {
     public class Category
     {
-        public Guid? Id { get; set; }
-        public string Name { get; set; }
-        public string UrlHandle { get; set; }
+        public int CategoryId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string UrlHandle { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public bool IsDeleted { get; set; }
+        public bool Active { get; set; }
     }
 }
